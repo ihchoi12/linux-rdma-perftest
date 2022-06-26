@@ -166,5 +166,39 @@ int main(int argc, char *argv[])
 	int                      	size_max_pow = 24;
 
 	fprintf(stderr, " Hi Learning\n");
+	/* init default values to user's parameters */
+	memset(&ctx, 0,sizeof(struct pingpong_context));
+	memset(&user_param, 0 , sizeof(struct perftest_parameters));
+	memset(&mcg_params, 0 , sizeof(struct mcast_parameters));
+	memset(&user_comm, 0,sizeof(struct perftest_comm));
+
+	user_param.verb    = SEND;
+	user_param.tst     = BW;
+	strncpy(user_param.version, VERSION, sizeof(user_param.version));
+
+	/* Configure the parameters values according to user arguments or defalut values. */
+	ret_parser = parser(&user_param,argv,argc);
+	if (ret_parser) {
+		if (ret_parser != VERSION_EXIT && ret_parser != HELP_EXIT)
+			fprintf(stderr," Parser function exited with Error\n");
+		return FAILURE;
+	}
+	if((user_param.connection_type == DC || user_param.use_xrc) && user_param.duplex) {
+		user_param.num_of_qps *= 2;
+	}
+	/* Checking that the user did not run with RawEth. for this we have raw_etherent_bw test. */
+	if (user_param.connection_type == RawEth) {
+		fprintf(stderr," This test cannot run Raw Ethernet QPs (you have chosen RawEth as connection type\n");
+		fprintf(stderr," For this we have raw_ethernet_bw test in this package.\n");
+		return FAILURE;
+	}
+
+	/* Finding the IB device selected (or defalut if no selected). */
+	ib_dev = ctx_find_dev(&user_param.ib_devname);
+	if (!ib_dev) {
+		fprintf(stderr," Unable to find the Infiniband/RoCE device\n");
+		return FAILURE;
+	}
+	fprintf(stderr, " ib_dev name: %s\n", ib_dev->name);
 	return 0;
 }
