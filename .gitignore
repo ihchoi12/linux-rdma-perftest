@@ -29,6 +29,7 @@ configure
 libtool
 m4/
 stamp-h1
+config/
 
 # Project/Eclipse
 .cproject
@@ -38,6 +39,7 @@ stamp-h1
 tags
 
 #Programs
+ib_learning
 ib_atomic_bw
 ib_atomic_lat
 ib_read_bw
