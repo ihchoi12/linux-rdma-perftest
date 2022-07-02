@@ -42,6 +42,7 @@
 #include "perftest_resources.h"
 #include "multicast_resources.h"
 #include "perftest_communication.h"
+#include "message.h"
 
 /******************************************************************************
  *
@@ -200,5 +201,7 @@ int main(int argc, char *argv[])
 		return FAILURE;
 	}
 	fprintf(stderr, " ib_dev name: %s\n", ib_dev->name);
+	Debug("DEBUG");
+
 	return 0;
 }

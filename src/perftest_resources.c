@@ -28,7 +28,7 @@
 
 #include "perftest_resources.h"
 #include "raw_ethernet_resources.h"
-
+#include "message.h"
 static enum ibv_wr_opcode opcode_verbs_array[] = {IBV_WR_SEND,IBV_WR_RDMA_WRITE,IBV_WR_RDMA_READ};
 static enum ibv_wr_opcode opcode_atomic_array[] = {IBV_WR_ATOMIC_CMP_AND_SWP,IBV_WR_ATOMIC_FETCH_AND_ADD};
 
@@ -1050,6 +1050,12 @@ struct ibv_device* ctx_find_dev(char **ib_devname)
 	if (!ib_devname) {
 		fprintf(stderr," Internal error, existing.\n");
 		return NULL;
+	}
+
+	Debug("# of devs: %d\n", num_of_device);
+	for (int i = 0; i < num_of_device; i++){
+		ib_dev = dev_list[i];
+		Debug("dev: %s\n", ibv_get_device_name(ib_dev));
 	}
 
 	if (!*ib_devname) {
