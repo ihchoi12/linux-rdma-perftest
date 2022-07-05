@@ -137,6 +137,14 @@ Prerequisites:
 Server:		./<test name> <options>
 Client:		./<test name> <options> <server IP address>
 
+Example
+ib_sent_lat
+- Server(node4): ./ib_send_lat -s 1024 -F
+- Client(node3): ./ib_send_lat -s 1024 -F 20.0.0.4
+raw_ethernet_lat
+- Server(node4): sudo ./raw_ethernet_lat -E b8:ce:f6:2a:3f:9c -B b8:ce:f6:2a:30:ec --server -F -s 1024
+- Client(node3): sudo ./raw_ethernet_lat -B b8:ce:f6:2a:3f:9c -E b8:ce:f6:2a:30:ec --client -F -s 1024  
+
 		o  <server address> is IPv4 or IPv6 address. You can use the IPoIB
                    address if IPoIB is configured.
 		o  --help lists the available <options>
